@@ -35,10 +35,7 @@ try:
                 lhs_sql = lhs_sql + ' & %s'
             else:
                 lhs_sql = lhs_sql + ' | %s'
-            if not self.rhs_is_direct_value():
-                params.extend(self.process_rhs(qn, connection)[1])
-            else:
-                params.extend(self.get_db_prep_lookup(self.rhs, connection)[1])
+            params.extend(self.get_db_prep_lookup(self.rhs, connection)[1])
             return lhs_sql, params
 
         def get_db_prep_lookup(self, value, connection, prepared=False):
