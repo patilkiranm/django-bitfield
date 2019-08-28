@@ -11,7 +11,7 @@ from bitfield.types import BitHandler
 
 
 class BitFieldCheckboxSelectMultiple(CheckboxSelectMultiple):
-    def render(self, name, value, attrs=None, choices=()):
+    def render(self, name, value, attrs=None, choices=(), renderer=None):
         if isinstance(value, BitHandler):
             value = [k for k, v in value if v]
         elif isinstance(value, int):
@@ -43,11 +43,11 @@ class BitFormField(IntegerField):
 
         if isinstance(kwargs['initial'], int):
             iv = kwargs['initial']
-            l = []
+            iv_list = []
             for i in range(0, min(len(choices), 63)):
                 if (1 << i) & iv > 0:
-                    l += [choices[i][0]]
-            kwargs['initial'] = l
+                    iv_list += [choices[i][0]]
+            kwargs['initial'] = iv_list
         self.widget = widget
         super(BitFormField, self).__init__(widget=widget, *args, **kwargs)
         self.choices = self.widget.choices = choices
