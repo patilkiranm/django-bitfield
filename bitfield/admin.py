@@ -23,13 +23,6 @@ class BitFieldListFilter(FieldListFilter):
         super(BitFieldListFilter, self).__init__(
             field, request, params, model, model_admin, field_path)
 
-    def queryset(self, request, queryset):
-        filter = dict((p, bitor(F(p), v)) for p, v in six.iteritems(self.used_parameters))
-        try:
-            return queryset.filter(**filter)
-        except ValidationError as e:
-            raise IncorrectLookupParameters(e)
-
     def expected_parameters(self):
         return [self.lookup_kwarg]
 
